@@ -31,6 +31,13 @@ export class HomePage implements OnInit {
     this.getProducts();
   }
 
+  doRefresh(event) {
+    setTimeout(() => {
+      this.getProducts();
+      event.target.complete();
+    }, 2000);
+  }
+
   //------SIGN OUT------
   signOut(){
     this.firebaseSvc.signOut();
