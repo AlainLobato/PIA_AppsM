@@ -7,6 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddUpdateObjectComponent } from './components/add-update-object/add-update-object.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { AddTaskComponent } from './components/add-task/add-task.component';
+import { HttpClientModule } from '@angular/common/http';
+import { UtilsService } from '../services/utils.service';
 
 
 
@@ -16,7 +20,9 @@ import { FooterComponent } from './components/footer/footer.component';
     CustomInputComponent,
     LogoComponent,
     AddUpdateObjectComponent,
-    FooterComponent
+    FooterComponent,
+    EditProfileComponent,
+    AddTaskComponent
   ],
   exports: [
     ReactiveFormsModule,
@@ -24,13 +30,17 @@ import { FooterComponent } from './components/footer/footer.component';
     CustomInputComponent,
     LogoComponent,
     AddUpdateObjectComponent,
-    FooterComponent
+    FooterComponent,
+    EditProfileComponent,
+    AddTaskComponent
   ],
   imports: [
     CommonModule,
     IonicModule,
     ReactiveFormsModule,
-    FormsModule
-  ]
+    FormsModule,
+    HttpClientModule
+  ],
+  providers: [UtilsService]
 })
 export class SharedModule { }

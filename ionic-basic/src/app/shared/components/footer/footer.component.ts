@@ -17,9 +17,7 @@ export class FooterComponent  implements OnInit {
   router = inject(Router);
 
   routerlink(url: string){
-
     this.router.navigateByUrl(url);
-
   }
   
 }

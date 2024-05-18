@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'fyp',
     loadChildren: () => import('./fyp/fyp.module').then( m => m.FypPageModule)
+  },
+  {
+    path: 'task',
+    loadChildren: () => import('./task/task.module').then( m => m.TaskPageModule)
   }
 ];
 

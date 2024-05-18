@@ -49,7 +49,7 @@ export class HomePage implements OnInit {
       component: AddUpdateObjectComponent,
       cssClass: 'add-update-modal',
       componentProps: {product}
-    })
+    }) 
 
     if(success){
       this.getProducts();

@@ -5,11 +5,17 @@
   <ion-list *ngFor="let p of products">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>{{p.name}}</ion-card-title>
-        <ion-card-subtitle>{{user().name}}</ion-card-subtitle>
+        <ion-item>
+          <ion-avatar>
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </ion-avatar>
+          <ion-card-subtitle>User {{p.id}}</ion-card-subtitle>
+          <b>${{p.price}} MXN</b>
+        </ion-item>
+        <ion-card-title>{{p.title}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <img [src]="p.image" />
+        <img [src]="p.image"/>
 
         <ion-buttons class="ion-justify-content-start ion-align-self-stretch">
 

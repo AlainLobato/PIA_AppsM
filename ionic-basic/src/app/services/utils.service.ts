@@ -3,19 +3,26 @@ import { Router } from '@angular/router';
 import { ActionSheetController, AlertController, AlertOptions, IonSpinner, LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
 import { AddUpdateObjectComponent } from '../shared/components/add-update-object/add-update-object.component';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilsService {
 
-  constructor(private loadingController: LoadingController) { }
+  constructor() { }
 
   loadingCtrl = inject(LoadingController);
   toastCtrl = inject(ToastController);
   router = inject(Router);
   modalCtrl = inject(ModalController);
   alertCtrl = inject(AlertController);
+  http = inject(HttpClient)
+
+  getProducts(params: any) {
+    return this.http.get(environment.BaseUrl + environment.products, { params });
+  }  
 
   //----------------LOADING-----------------
   loading() {

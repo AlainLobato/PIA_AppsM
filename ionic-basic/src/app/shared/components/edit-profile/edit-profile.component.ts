@@ -5,51 +5,64 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { ActionSheetController } from '@ionic/angular';
 import { Product } from 'src/app/models/product.model';
-import { EditProfileComponent } from 'src/app/shared/components/edit-profile/edit-profile.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: 'app-edit-profile',
+  templateUrl: './edit-profile.component.html',
+  styleUrls: ['./edit-profile.component.scss'],
 })
-export class ProfilePage implements OnInit {
-
-  firebaseSvc = inject(FirebaseService)
-  utilsSvc = inject(UtilsService)
-  router = inject(Router);
-  actionSheetCtrl = inject(ActionSheetController);
+export class EditProfileComponent  implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService);
+  router = inject(Router);
+  actionSheetCtrl = inject(ActionSheetController);
+
+  form = new FormGroup({
+    name: new FormControl("", [Validators.required, Validators.minLength(4)])
+  })
 
   user(): user{
     return this.utilsSvc.getFromLocalStorage('user');
   }
 
-  async updateUser(user?: user){
-    let success = await this.utilsSvc.presentModal({
-      component: EditProfileComponent,
-      cssClass: 'add-update-modal',
-      componentProps: {user}
-    })
+  ngOnInit() {
+    
+  }
 
-    if(success){
-      this.routerlink('main/profile');
+  async submit(){
+    if (this.form.valid) {
+
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      this.firebaseSvc.updateUser(this.user().name).then(() => {
+          this.utilsSvc.presentToast({
+            message: 'User updated successfully',
+            duration: 4000,
+            color: 'success',
+            position: 'bottom',
+            icon: 'checkmark-done-outline'
+          });
+        }).catch(error => {
+
+        console.log(error);
+        
+        this.utilsSvc.presentToast({
+          message: 'User have already exist',
+          duration: 4000,
+          color: 'danger',
+          position: 'bottom',
+          icon: 'alert-circle-outline'
+        })
+
+      }).finally(()=>{
+        loading.dismiss();
+      })
     }
-  }
-
-  routerlink(url: string){
-    this.router.navigateByUrl(url);
-  }
-
-  doRefresh(event) {    
-    setTimeout(() => {
-      this.routerlink('main/profile');
-      event.target.complete();
-    }, 2000);
   }
 
   //------OPTIONS TO SELECT IMAGE-------
@@ -169,9 +182,15 @@ export class ProfilePage implements OnInit {
     })
   }
 
-  //------SIGN OUT------
-  signOut(){
-    this.firebaseSvc.signOut();
+  doRefresh(event) {
+    setTimeout(() => {
+      this.routerlink('main/profile');
+      event.target.complete();
+    }, 2000);
+  }
+
+  routerlink(url: string){
+    this.router.navigateByUrl(url);
   }
 
 }

@@ -3,5 +3,6 @@ export interface Product{
     name: string,
     image: string,
     soldUnits: number,
-    id: string
+    id: string,
+    title?: string
 }
